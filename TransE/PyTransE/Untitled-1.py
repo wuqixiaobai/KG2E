@@ -1,3 +1,6 @@
-dic= {'a':1,'b':1}
-dic.pop('a')
-print(dic)
+from collections import Counter
+dic=[]
+dic1=[]
+dicm=dic+dic1
+c=Counter(dicm)
+print("%rr")

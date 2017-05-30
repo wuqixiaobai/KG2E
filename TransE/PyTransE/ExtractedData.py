@@ -1,35 +1,43 @@
 #-*- coding:utf-8 –*-
 from copy import deepcopy
 from SPARQLWrapper import SPARQLWrapper, JSON
-FBdir = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB/chongfu.txt"
+FBdir = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/entity_DBpedi2id.txt"
 sp = "\t"
 idNum = 0
 FBdic = {}  # freebase Entity,key is entity; value=-1
-Chongfu = {}
 with open(FBdir) as file:
-    print("Begain Reading DB-To_FB File")
+    print("Begain Reading entity2id File")
     lines = file.readline()
     while lines:
         DetailsAndId = lines.strip().split(sp)
-        DBEntity = DetailsAndId[0]
+        DBEntity = DetailsAndId[0][27:]
         FreebaseEntity = DetailsAndId[1]
-        Chongfu[DBEntity]=FreebaseEntity
-        if FreebaseEntity in FBdic.keys():
-            FBdic[FreebaseEntity]+=1
-        else:
-            FBdic[FreebaseEntity]=1
+        FBdic[DBEntity]=FreebaseEntity
         lines = file.readline()
 file.close()
-index=1
-Du_entity=[]#list of freebase entity whose number more than2
-MoreDic={}
-for ky,va in FBdic.items():
-    if va>=2:
-        Du_entity.append(ky)
-for ky, va in Chongfu.items():
-    if va in Du_entity:
-        MoreDic[ky]=va
+SameAsFile = open("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/entity_DBpedi2id_new.txt",'w')
+for entity in FBdic.keys():
+  SameAsFile.write(entity+"\t"+FBdic[entity]+"\n")
+print("All are Done!")
 """
+entityFile = open("/Users/wenqiangliu/Documents/KG2E/data/FB15k/entity_DBpedi2id.txt", 'a')
+SameAsFile = open("/Users/wenqiangliu/Documents/KG2E/data/FB15k/SameAsRelation.txt",'a')
+entityId = 14722
+StringDB1=""
+StringDB2=""
+for entity,free in Emptydic.items():
+  if free not in listPop:
+    try:
+      StringDB_FB="%s\t%s"%(entity,entityId)
+      entityFile.write(StringDB_FB+"\n")
+      SameAsFile.write(entity+"\t"+Emptydic[entity]+"\n")
+      entityId+=1
+    except:
+      continue
+  else:
+    StringDB2+=entity+"\t"+Emptydic[entity]+"\n"
+SameAsFile.write(StringDB2)
+print("Done")
 DB_FB_dir = "/Users/wenqiangliu/Desktop/freebase_links_en.nt"  # 读取DBpedia Links to freebase
 splinks = " "
 SameAs = {}  # Dbpedia dic, key is entity and value is freebase entity
@@ -48,7 +56,6 @@ for db in FBdic.keys():
     if db not in SameAs.keys():
         CopyDBdic.pop(db)
 print("Begain SPAQL")
-"""
 CopyChongfu = deepcopy(Chongfu)
 endpoint = "http://dbpedia.org/sparql/"
 index1 = 0
@@ -88,18 +95,20 @@ for entity in Chongfu.keys():
   SameAsFile.write(StringDB_FB+"\n")
   entityId += 1
 print("All are Done! %d"%(entityId))
-"""
-SameAsFile = open("/Users/wenqiangliu/Documents/KG2E/data/FB15k/DB_FB.txt",'w')
-errorString =""
-for entity in DBdic.keys():
+entityFile = open("/Users/wenqiangliu/Documents/KG2E/data/FB15k/entity_DBpedi2id.txt", 'w')
+SameAsFile = open("/Users/wenqiangliu/Documents/KG2E/data/FB15k/SameAsRelation.txt",'w')
+entityId = 1
+for entity in CopyDBdic.keys():
   #StringDB="%s\t%d"%(CopyDBdic[entity],entityId)
   #entityFile.write(StringDB+"\n")
   try:
-    StringDB_FB="%s\t%s"%(DBdic[entity],entity)
-    SameAsFile.write(StringDB_FB+"\n")
+    StringDB_FB="%s\t%s"%(entity,entityId)
+    entityFile.write(StringDB_FB+"\n")
+    SameAsFile.write(entity+"\t"+CopyDBdic[entity]+"\n")
   except:
     continue
-print("All are Done!")
+  entityId+=1
+print("All are Done!%d"%(entityId))
 entityFile = open("/Users/wenqiangliu/Documents/KG2E/data/FB15k/entity_DBpedi2id.txt", 'w')
 SameAsFile = open("/Users/wenqiangliu/Documents/KG2E/data/FB15k/FB_DB.txt",'w')
 entityId = 1
