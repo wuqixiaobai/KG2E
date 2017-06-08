@@ -1,17 +1,14 @@
 from numpy import *
-dir="/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/train.txt"
-idNum = 0
+dir="/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/MGtestHeadRaw.txt"
 sp="\t"
-list1 = []
+idNum=0.0
+TopTen=0.0
 with open(dir) as file:
   lines = file.readline()
   while lines:
     DetailsAndId = lines.strip().split(sp)
-    print(DetailsAndId[2])
+    idNum += 1
+    if int(DetailsAndId[3])<=1000:
+      TopTen+=1
     lines = file.readline()
-"""
-dirt="/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/SameasRealtion.txt"
-relationVectorFile = open(dirt, 'w')
-for relation in list1:
-  relationVectorFile.write(relation+"\t"+"/sameAs"+"\n")
-"""
+print(TopTen/idNum)
