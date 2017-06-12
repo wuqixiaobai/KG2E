@@ -37,7 +37,6 @@
 /book/author/school_or_movement	/movement
 /business/asset/owners./business/asset_ownership/owner	/predecessor
 /tv/tv_actor/starring_roles./tv/regular_tv_appearance/special_performance_type	/occupation
-/celebrities/celebrity/celebrity_friends./celebrities/friendship/friend	/associatedMusicalArtist
 /education/academic/research_areas	/mainInterest
 /location/us_county/hud_county_place	/countySeat
 /base/biblioness/bibs_location/city	/isPartOf
@@ -150,14 +149,12 @@
 /sports/professional_sports_team/owner_s	/owner
 /film/film/genre	/genre
 /film/film/film_art_direction_by	/director
-/military/military_person/service./military/military_service/rank	/rank
 /location/country/capital	/capital
 /location/hud_county_place/county	/isPartOf
 /user/robert/us_congress/us_representative/state	/region
 /education/educational_institution/students_graduates./education/education/major_field_of_study	wl#differentFrom
 /education/educational_institution/parent_institution	/affiliation
 /award/award_winner/awards_won./award/award_honor/award	/award
-/music/group_member/artists_supported	/associatedMusicalArtist
 /architecture/architectural_style/architects	df-schema#seeAlso
 /tv/tv_program/spun_off_from	/related
 /people/person/education./education/education/major_field_of_study	/field
@@ -185,12 +182,10 @@
 /ice_hockey/hockey_player/current_team./ice_hockey/hockey_roster_position/position	/position
 /tv/tv_series_episode/writer	/writer
 /computer/software_developer/software	/product
-/organization/organization_founder/organizations_founded	/affiliations
 /american_football/football_player/former_teams./american_football/football_historical_roster_position/position_s	/position
 /business/business_operation/assets./measurement_unit/dated_money_value/currency	/revenue
 /film/cinematographer/film	/award
 /base/schemastaging/organization_extra/phone_number./base/schemastaging/phone_sandbox/service_location	/locationCountry
-/organization/membership_organization/members./organization/organization_membership/member	/headquarters
 /media_common/adapted_work/adaptations	/subsequentWork
 /government/political_party/politicians_in_this_party./government/political_party_tenure/politician	/leader
 /film/film/story_by	/writer
@@ -220,7 +215,6 @@
 /soccer/football_team_manager/team./soccer/football_team_management_tenure/team	/managerClub
 /computer/computer/manufacturer	/manufacturer
 /business/consumer_company/products./business/company_product_relationship/consumer_product	/product
-/award/award_winner/awards_won./award/award_honor/award_winner	/associatedMusicalArtist
 /film/film/country	/country
 /film/film/distributors./film/film_film_distributor_relationship/region	/country
 /transportation/road/major_cities	/routeJunction
@@ -255,7 +249,6 @@
 /film/film_character/portrayed_in_films./film/performance/actor	/voice
 /aviation/airline/airports_served./aviation/airline_airport_presence/airport	/hubAirport
 /government/governmental_body/jurisdiction	/location
-/military/military_combatant/military_commanders./military/military_command/military_conflict	/battles
 /sports/pro_athlete/teams./baseball/baseball_roster_position/team	/team
 /base/popstra/celebrity/supporter./base/popstra/support/supported_organization	/party
 /fictional_universe/fictional_character/species	/species
@@ -263,7 +256,6 @@
 /tv/tv_producer/programs_produced./tv/tv_producer_term/producer_type	/occupation
 /award/award_winner/awards_won./award/award_honor/honored_for	/award
 /business/consumer_product/company./business/company_product_relationship/company	/developer
-/book/magazine/genre	/category
 /location/capital_of_administrative_division/capital_of./location/administrative_division_capital_relationship/administrative_division	/isPartOf
 /education/educational_institution/students_graduates./education/education/degree	/type
 /film/actor/film./film/performance/film	/award
@@ -272,7 +264,6 @@
 /education/educational_degree/people_with_this_degree./education/education/major_field_of_study	df-schema#seeAlso
 /location/location/contains	/largestCity
 /location/statistical_region/rent50_2./measurement_unit/dated_money_value/currency	/currency
-/soccer/football_player/matches_played./soccer/football_player_match_participation/team	/nationalteam
 /book/author/works_written	/notableWork
 /basketball/basketball_player/team./basketball/basketball_roster_position/position	/position
 /government/politician/government_positions_held./government/government_position_held/district_represented	/region
@@ -281,7 +272,6 @@
 /government/governmental_body/members./government/government_position_held/jurisdiction_of_office	/location
 /soccer/football_team/current_roster./soccer/football_roster_position/player	/name
 /government/governmental_body/body_this_is_a_component_of	/isPartOf
-/symbols/name_source/namesakes	/subdivisionName
 /people/deceased_person/place_of_cremation	/deathPlace
 /music/artist/genre	/genre
 /base/culturalevent/event/entity_involved	/commander
@@ -322,7 +312,6 @@
 /location/location/street_address./location/mailing_address/state_province_region	/state
 /royalty/monarch/kingdom	/birthPlace
 /american_football/football_player/current_team./american_football/football_roster_position/position	/position
-/base/x2010fifaworldcupsouthafrica/world_cup_participant/world_cup_team./base/x2010fifaworldcupsouthafrica/current_world_cup_squad/national_team	/nationalteam
 /organization/organization/leadership./organization/leadership/person	/keyPerson
 /award/award_winning_work/awards_won./award/award_honor/honored_for	df-schema#seeAlso
 /people/deceased_person/cause_of_death	/deathCause
@@ -361,9 +350,7 @@
 /business/employer/employees./business/employment_tenure/person	/keyPerson
 /common/topic/webpage./common/webpage/resource	/director
 /base/famouspets/pet_owner/pets_owned./base/famouspets/pet_ownership/owner	/spouse
-/organization/organization/companies_acquired./business/acquisition/company_acquired	/subsid
 /tv/tv_program_creator/programs_created	/notableWork
-/soccer/football_player/goals_scored./soccer/football_goal/point_awarded_to	/nationalteam
 /film/film/starring./film/performance/actor	/starring
 /location/administrative_division/capital./location/administrative_division_capital_relationship/capital	/countySeat
 /medicine/notable_person_with_medical_condition/condition	/deathCause
@@ -389,7 +376,6 @@
 /government/governmental_body/members./government/government_position_held/district_represented	/location
 /education/field_of_study/subdiscipline_of	df-schema#seeAlso
 /award/award_winner/awards_won./award/award_honor/ceremony	/award
-/base/x2010fifaworldcupsouthafrica/world_cup_participant/world_cup_team./base/x2010fifaworldcupsouthafrica/current_world_cup_squad/current_club	/clubs
 /military/military_conflict/force_strengths./military/force_strength/combatant	/place
 /religion/religion/deities	df-schema#seeAlso
 /sports/pro_athlete/teams./soccer/football_roster_position/team	/team
@@ -407,7 +393,6 @@
 /media_common/dedicator/dedications./media_common/dedication/dedicated_to	df-schema#seeAlso
 /music/artist/track_contributions./music/track_contribution/role	/instrument
 /location/country/form_of_government	/governmentType
-/base/popstra/organization/supporter./base/popstra/support/supporter	/currentMembers
 /language/human_language/main_country	/spokenIn
 /location/statistical_region/rent50_1./measurement_unit/dated_money_value/currency	/currency
 /base/schemastaging/athlete_extra/salary./base/schemastaging/athlete_salary/team	/team
@@ -417,8 +402,6 @@
 /religion/religious_organization/associated_with	df-schema#seeAlso
 /location/country/first_level_divisions	/capital
 /broadcast/content/producer	/company
-/broadcast/broadcast/content	/sisterNames
-/broadcast/content/genre	/format
 /military/military_commander/military_commands./military/military_command/military_combatant	/deathPlace
 /film/film/cinematography	/cinematography
 /business/employer/employees./business/employment_tenure/title	/keyPerson
@@ -446,7 +429,6 @@
 /location/country/administrative_divisions	/capital
 /award/award_nominee/award_nominations./award/award_nomination/award	/award
 /sports/drafted_athlete/drafted./sports/sports_league_draft_pick/team	/draftTeam
-/language/language_dialect/language	/fam
 /sports/pro_athlete/teams./basketball/basketball_roster_position/position	/position
 /location/statistical_region/gdp_nominal./measurement_unit/dated_money_value/currency	/currency
 /architecture/structure/address./location/mailing_address/citytown	/location
@@ -457,7 +439,6 @@
 /location/country/second_level_divisions	/capital
 /sports/pro_athlete/teams./baseball/baseball_historical_roster_position/team	/debutTeam
 /law/inventor/inventions	/product
-/music/album/artist	/music
 /american_football/football_player/current_team./american_football/football_roster_position/team	/formerTeam
 /base/academyawards/host_of_oscar_show/oscar_show_hosted	/spouse
 /people/person/places_lived./people/place_lived/location	/birthPlace
@@ -467,7 +448,6 @@
 /architecture/museum/address./location/mailing_address/state_province_region	/location
 /broadcast/radio_station/owner	/owner
 /book/periodical_publisher/periodicals_published./book/periodical_publisher_period/periodical	/product
-/base/popstra/celebrity/friendship./base/popstra/friendship/participant	/associatedMusicalArtist
 /base/thoroughbredracing/thoroughbred_racehorse/sex	/sex
 /military/military_conflict/commanders./military/military_command/military_combatant	/place
 /religion/religion/is_part_of	df-schema#seeAlso
@@ -497,7 +477,6 @@
 /military/military_commander/military_commands./military/military_command/military_conflict	/battle
 /music/genre/artists	/musicSubgenre
 /sports/sports_team_owner/teams_owned	/occupation
-/organization/organization_sector/organizations_in_this_sector	/union
 /people/person/education./education/education/institution	/almaMater
 /government/politician/government_positions_held./government/government_position_held/basic_title	/office
 /film/film/subjects	/basedOn

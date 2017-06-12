@@ -32,6 +32,8 @@ class Test:
 
     def getRank(self):
         print("Test")
+        TopIndex=0.0
+        ToponeIndex=0.0
         cou = 0
         for sameAs in self.EntitySameAsTest:
             rankList = {}
@@ -53,13 +55,19 @@ class Test:
                 if i[0] == sameAs[numTri]:
                     break
                 x += 1
+            if x<=10:
+                TopIndex+=1
+            if x==1:
+                ToponeIndex+=1
             self.rank.append((sameAs, sameAs[numTri], nameRank[0][0], x))
             cou += 1
             if cou % 10000 == 0:
                 print(cou)
-
+        return TopIndex /len(self.EntitySameAsTest),ToponeIndex /len(self.EntitySameAsTest)
     def getRelationRank(self):
         cou = 0
+        TopIndex=0.0
+        ToponeIndex=0.0
         self.rank = []
         for Schema in self.SchemaTest:
             rankList = {}
@@ -81,11 +89,15 @@ class Test:
                 if i[0] == Schema[numTri]:
                     break
                 x += 1
+            if x<=10:
+                TopIndex+=1
+            if x==1:
+                ToponeIndex+=1
             self.rank.append((Schema, Schema[numTri], nameRank[0][0], x))
             cou += 1
             if cou % 10000 == 0:
                 print(cou)
-
+        return TopIndex /len(self.SchemaTest),ToponeIndex /len(self.SchemaTest)
     def getMeanRank(self):
         num = 0
         for r in self.rank:

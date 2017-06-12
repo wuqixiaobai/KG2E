@@ -75,8 +75,8 @@ class TransE:
     def transE(self, cI = 20):
         print("Begian Train")
         for cycleIndex in range(cI):  #随机梯度下降
-            S_DBbatch = self.getSample(100,"DB") #SGD的DBBatch
-            S_FBbatch=self.getSample(100,"FB")#SGD的FBBatch
+            S_DBbatch = self.getSample(1000,"DB") #SGD的DBBatch
+            S_FBbatch=self.getSample(1000,"FB")#SGD的FBBatch
             T_DBbatch = []#元组对（原三元组，打碎的三元组）的列表 ：{((h,r,t),(h',r,t'))}
             T_FBbatch = []#元组对（原三元组，打碎的三元组）的列表 ：{((h,r,t),(h',r,t'))}
             for sbatch in S_DBbatch:
@@ -410,62 +410,35 @@ if __name__ == '__main__':
     dirsameAs="/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/test_Entity.txt"
     SameAsNum, SameAsList=openSameAs(dirsameAs)
     print("Open TransE")
-    transE = TransE(entityDBList,relationDBList,tripleDBList,entityFBList,relationFBList,tripleFBList,SameAsList, margin=2, dim = 50, L1 = True, weight=5)
+    transE = TransE(entityDBList,relationDBList,tripleDBList,entityFBList,relationFBList,tripleFBList,SameAsList, margin=2, dim = 50, L1 = False, weight=1)
     print("TranE")
     transE.initialize()
-    transE.transE(5000)
+    transE.transE(1000)
     transE.writeRelationVector("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/FBrelationVector.txt","FB")
     transE.writeRelationVector("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/DBrelationVector.txt","DB")
     transE.writeEntilyVector("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/FBentityVector.txt","FB")
     transE.writeEntilyVector("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/DBentityVector.txt","DB")
-    print("Begain")
+    print("Begain Test")
     dirEntityTest =  "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/test_Entity.txt"
     EntityTest = MGTest.openD(dirEntityTest)
-    print("Read Entity")
     dirRelationTest = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/test_Relation.txt"
     RelationTest = MGTest.openD(dirRelationTest)
-    print("Read Relation")
     dirFBEntityVector = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/FBentityVector.txt"
     FBentityVectorList, FBentityList = MGTest.loadData(dirFBEntityVector)
-    print("Read FBEntitVector")
     dirFBRelationVector = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/FBrelationVector.txt"
     FBrelationVectorList, FBrelationList = MGTest.loadData(dirFBRelationVector)
     dirDBEntityVector = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/DBentityVector.txt"
     DBentityVectorList, DBentityList = MGTest.loadData(dirDBEntityVector)
-    print("Read FBEntitVector")
     dirDBRelationVector = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/DBrelationVector.txt"
     DBrelationVectorList, DBrelationList = MGTest.loadData(dirDBRelationVector)
-    print("Read RelationVector")
     testHeadRaw = MGTest.Test(FBentityList, FBentityVectorList, FBrelationList, FBrelationVectorList, DBentityList, DBentityVectorList, DBrelationList, DBrelationVectorList, EntityTest, RelationTest)
-    testHeadRaw.getRank()
-    print("MeanRank of HeadRaw is %f"%(testHeadRaw.getMeanRank()))
-    testHeadRaw.writeRank("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/" + "MGtestHeadRaw" + ".txt")
-    """
-    print("开始测试")
-    dirEntityTest =  "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/test_Entity.txt"
-    EntityTest = test.openD(dirEntityTest)
-    print("Read Entity")
-    dirRelationTest = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/test_Relation.txt"
-    RelationTest = test.openD(dirRelationTest)
-    print("Read Relation")
-    dirEntityVector = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/entityVector.txt"
-    entityVectorList, entityList = test.loadData(dirEntityVector)
-    print("Read EntitVector")
-    dirRelationVector = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/relationVector.txt"
-    relationVectorList, relationList = test.loadData(dirRelationVector)
-    print("Read RelationVector")
-    testHeadRaw = test.Test(entityList, entityVectorList, relationList, relationVectorList, EntityTest, RelationTest)
-    testHeadRaw.getRank()
-    print("MeanRank of HeadRaw is %f"%(testHeadRaw.getMeanRank()))
-    testHeadRaw.writeRank("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/" + "testHeadRaw" + ".txt")
-
-    testHeadRaw.getRelationRank()
-    print("MeanRank of Relation is %f"%(testHeadRaw.getMeanRank()))
-    testHeadRaw.writeRank("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/" + "testRelationRaw" + ".txt")
-    testTailRaw = test.Test(entityList, entityVectorList, relationList, relationVectorList, EntityTest, RelationTest, label = "tail")
-    testTailRaw.getRank()
-    print("MeanRank of HeadRaw is %f"%(testHeadRaw.getMeanRank()))
-    print("MeanRank of TailRaw is %f"%(testTailRaw.getMeanRank()))
-    testTailRaw.writeRank("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/" + "testTailRaw" + ".txt")
-    print("Done")
-    """
+    Topindex,Top1index=testHeadRaw.getRank()
+    print("MGTransE:Top 10 head entity is %f, Top 1 head entity is %f"%(Topindex,Top1index))
+    print("MGTransE:MeanRank of HeadRaw is %f"%(testHeadRaw.getMeanRank()))
+    Topindex,Top1index=testHeadRaw.getRelationRank()
+    print("MGTransE:Top 10 relation is %f, Top 1 relation is %f"%(Topindex,Top1index))
+    print("MGTransE:MeanRank of Relation is %f"%(testHeadRaw.getMeanRank()))
+    testTailRaw =  MGTest.Test(FBentityList, FBentityVectorList, FBrelationList, FBrelationVectorList, DBentityList, DBentityVectorList, DBrelationList, DBrelationVectorList, EntityTest, RelationTest,label="tail")
+    Topindex,Top1index=testTailRaw.getRank()
+    print("MGTransE:Top 10 tail entity is %f, Top 1 tail entity is %f"%(Topindex,Top1index))
+    print("MGTransE:MeanRank of HeadRaw is %f"%(testTailRaw.getMeanRank()))

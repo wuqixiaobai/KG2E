@@ -47,7 +47,7 @@ class TransE:
     def transE(self, cI = 20):
         print("训练开始")
         for cycleIndex in range(cI):
-            Sbatch = self.getSample(1500) #SGD的Batch
+            Sbatch = self.getSample(10000) #SGD的Batch
             Tbatch = []#元组对（原三元组，打碎的三元组）的列表 ：{((h,r,t),(h',r,t'))}
             for sbatch in Sbatch:
                 tripletWithCorruptedTriplet = (sbatch, self.getCorruptedTriplet(sbatch)) #每一个元素都是turple
@@ -105,40 +105,22 @@ class TransE:
             eg = self.margin + distTriplet - distCorruptedTriplet
             if eg > 0: #[function]+ 是一个取正值的函数
                 self.loss += eg
+                tempPositive = 2 *  (tailEntityVectorBeforeBatch - headEntityVectorBeforeBatch - relationVectorBeforeBatch)
+                tempNegtative = 2 * (tailEntityVectorWithCorruptedTripletBeforeBatch - headEntityVectorWithCorruptedTripletBeforeBatch - relationVectorBeforeBatch)
                 if self.L1:
-                    tempPositive = 2 *  (tailEntityVectorBeforeBatch - headEntityVectorBeforeBatch - relationVectorBeforeBatch)
-                    tempNegtative = 2 * (tailEntityVectorWithCorruptedTripletBeforeBatch - headEntityVectorWithCorruptedTripletBeforeBatch - relationVectorBeforeBatch)
-                    tempPositiveL1 = []
-                    tempNegtativeL1 = []
-                    for i in range(self.dim):#不知道有没有pythonic的写法（比如列表推倒或者numpy的函数）？
-                        if tempPositive[i] >= 0:
-                            tempPositiveL1.append(1)
-                        else:
-                            tempPositiveL1.append(-1)
-                        if tempNegtative[i] >= 0:
-                            tempNegtativeL1.append(1)
-                        else:
-                            tempNegtativeL1.append(-1)
-                    tempPositive = array(tempPositiveL1)
-                    tempNegtative = array(tempNegtativeL1)
-
-                else:
-                    tempPositive = 2 *  (tailEntityVectorBeforeBatch - headEntityVectorBeforeBatch - relationVectorBeforeBatch)
-                    tempNegtative = 2 * (tailEntityVectorWithCorruptedTripletBeforeBatch - headEntityVectorWithCorruptedTripletBeforeBatch - relationVectorBeforeBatch)
-
-                headEntityVector = headEntityVector +  self.learingRate* tempPositive
+                    tempPositive = array([1 if index>0 else -1 for index in tempPositive])
+                    tempNegtative = array([1 if index>0 else -1 for index in tempNegtative])
+                headEntityVector = headEntityVector + self.learingRate* tempPositive
                 tailEntityVector = tailEntityVector -  self.learingRate*tempPositive
                 relationVector = relationVector +  self.learingRate*(tempPositive - tempNegtative)
                 headEntityVectorWithCorruptedTriplet = headEntityVectorWithCorruptedTriplet - self.learingRate*tempNegtative
                 tailEntityVectorWithCorruptedTriplet = tailEntityVectorWithCorruptedTriplet + self.learingRate*tempNegtative
-
                 #只归一化这几个刚更新的向量，而不是按原论文那些一口气全更新了
                 copyEntityList[tripletWithCorruptedTriplet[0][0]] = norm(headEntityVector)
                 copyEntityList[tripletWithCorruptedTriplet[0][1]] = norm(tailEntityVector)
                 copyRelationList[tripletWithCorruptedTriplet[0][2]] = norm(relationVector)
                 copyEntityList[tripletWithCorruptedTriplet[1][0]] = norm(headEntityVectorWithCorruptedTriplet)
                 copyEntityList[tripletWithCorruptedTriplet[1][1]] = norm(tailEntityVectorWithCorruptedTriplet)
-
         self.entityList = copyEntityList
         self.relationList = copyRelationList
 
@@ -219,37 +201,30 @@ if __name__ == '__main__':
     tripleNum, tripleList = openTrain(dirTrain)
     print(tripleNum)
     print("打开TransE")
-    transE = TransE(entityList,relationList,tripleList, margin=2, dim = 20, L1 = True)
+    transE = TransE(entityList,relationList,tripleList, margin=4, dim = 50, L1 = True)
     print("TranE初始化")
     transE.initialize()
-    transE.transE(5000)
+    transE.transE(10000)
     transE.writeRelationVector("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/relationVector.txt")
     transE.writeEntilyVector("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/entityVector.txt")
     print("开始测试")
     dirEntityTest =  "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/test_Entity.txt"
     EntityTest = test.openD(dirEntityTest)
-    print("Read Entity")
     dirRelationTest = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/test_Relation.txt"
     RelationTest = test.openD(dirRelationTest)
-    print("Read Relation")
     dirEntityVector = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/entityVector.txt"
     entityVectorList, entityList = test.loadData(dirEntityVector)
-    print("Read EntitVector")
     dirRelationVector = "/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/relationVector.txt"
     relationVectorList, relationList = test.loadData(dirRelationVector)
-    print("Read RelationVector")
     testHeadRaw = test.Test(entityList, entityVectorList, relationList, relationVectorList, EntityTest, RelationTest)
-    testHeadRaw.getRank()
+    print("Top 10 Head Entity is %f"%(testHeadRaw.getRank()))
     print("MeanRank of HeadRaw is %f"%(testHeadRaw.getMeanRank()))
     testHeadRaw.writeRank("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/" + "testHeadRaw" + ".txt")
-    """
-    testHeadRaw.getRelationRank()
+    print("Top 10 relation is %f"%(testHeadRaw.getRelationRank()))
     print("MeanRank of Relation is %f"%(testHeadRaw.getMeanRank()))
     testHeadRaw.writeRank("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/" + "testRelationRaw" + ".txt")
-    """
     testTailRaw = test.Test(entityList, entityVectorList, relationList, relationVectorList, EntityTest, RelationTest, label = "tail")
-    testTailRaw.getRank()
-    print("MeanRank of HeadRaw is %f"%(testHeadRaw.getMeanRank()))
+    print("Top 10 tail entity is %f"%(testTailRaw.getRank()))
     print("MeanRank of TailRaw is %f"%(testTailRaw.getMeanRank()))
     testTailRaw.writeRank("/Users/wenqiangliu/Documents/KG2E/data/DB_FB30k/" + "testTailRaw" + ".txt")
     print("Done")
